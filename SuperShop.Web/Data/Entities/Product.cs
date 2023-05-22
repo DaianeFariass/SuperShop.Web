@@ -7,6 +7,9 @@ namespace SuperShop.Web.Data.Entities
     public class Product
     {
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength(50, ErrorMessage = "The field {0} can contain {1} characters lenght.")]
         public string Name { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]

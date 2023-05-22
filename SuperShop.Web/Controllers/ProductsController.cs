@@ -46,6 +46,7 @@ namespace SuperShop.Web.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+
             return View();
         }
 
