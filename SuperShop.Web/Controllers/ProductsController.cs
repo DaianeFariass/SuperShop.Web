@@ -9,30 +9,29 @@ namespace SuperShop.Web.Controllers
 {
     public class ProductsController : Controller
     {
-        
-        private readonly IProductRepository _productRepository;
+        private readonly IRepository _repository;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IRepository repository)
         {
-            _productRepository= productRepository;
+            _repository = repository;
             
         }
 
         // GET: Products
         public IActionResult Index()
         {
-            return View(_productRepository.GetAll());
+            return View(_repository.GetProducts());
         }
 
         // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await  _productRepository.GetByIdAsync(id.Value);
+            var product = _repository.GetProduct(id.Value);
             if (product == null)
             {
                 return NotFound();
@@ -57,21 +56,22 @@ namespace SuperShop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _productRepository.CreateAsync(product);
+                _repository.AddProduct(product);
+                await _repository.SaveAllAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
         }
 
         // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await  _productRepository.GetByIdAsync(id.Value);
+            var product = _repository.GetProduct(id.Value);
             if (product == null)
             {
                 return NotFound();
@@ -95,12 +95,12 @@ namespace SuperShop.Web.Controllers
             {
                 try
                 {
-
-                    await _productRepository.UpdateAsync(product);
+                    _repository.UpdateProduct(product);
+                    await _repository.SaveAllAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _productRepository.ExistAsync(product.Id))
+                    if (!_repository.ProductExists(product.Id))
                     {
                         return NotFound();
                     }
@@ -115,14 +115,14 @@ namespace SuperShop.Web.Controllers
         }
 
         // GET: Products/Delete/5
-        public  async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _productRepository.GetByIdAsync(id.Value);
+            var product = _repository.GetProduct(id.Value);
                
             if (product == null)
             {
@@ -137,8 +137,9 @@ namespace SuperShop.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _productRepository.GetByIdAsync(id);
-            await _productRepository.DeleteAsync(product);
+            var product = _repository.GetProduct(id);
+            _repository.RemoveProduct(product);
+            await _repository.SaveAllAsync();
             return RedirectToAction(nameof(Index));
         }
     }
