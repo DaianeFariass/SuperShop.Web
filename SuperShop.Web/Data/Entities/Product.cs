@@ -4,7 +4,7 @@ using System;
 
 namespace SuperShop.Web.Data.Entities
 {
-    public class Product
+    public class Product : IEntity
     {
         public int Id { get; set; }
 
