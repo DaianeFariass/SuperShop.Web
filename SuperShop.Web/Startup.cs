@@ -53,6 +53,8 @@ namespace SuperShop.Web
 
             services.AddScoped<IConverterHelper, ConverterHelper>();
 
+            services.AddScoped<IBlobHelper, BlobHelper>();
+
             services.AddControllersWithViews();
         }
 
