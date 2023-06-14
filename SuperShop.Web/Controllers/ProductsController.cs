@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data;
@@ -12,6 +13,7 @@ using SuperShop.Web.Models;
 
 namespace SuperShop.Web.Controllers
 {
+   
     public class ProductsController : Controller
     {
         
@@ -56,12 +58,13 @@ namespace SuperShop.Web.Controllers
         }
 
         // GET: Products/Create
+        [Authorize]
         public IActionResult Create()
         {
 
             return View();
         }
-
+     
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -89,6 +92,7 @@ namespace SuperShop.Web.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -107,7 +111,7 @@ namespace SuperShop.Web.Controllers
             return View(model);
         }
 
-
+ 
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

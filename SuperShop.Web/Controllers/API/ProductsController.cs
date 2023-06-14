@@ -6,7 +6,7 @@ namespace SuperShop.Web.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController : Controller
     {
         private readonly IProductRepository _product;
 
