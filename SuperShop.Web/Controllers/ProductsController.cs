@@ -12,11 +12,9 @@ using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;
 
 namespace SuperShop.Web.Controllers
-{
-   
+{  
     public class ProductsController : Controller
-    {
-        
+    {       
         private readonly IProductRepository _productRepository;
         private readonly IUserHelper _userHelper;
         private readonly IBlobHelper _blobHelper;
@@ -70,6 +68,7 @@ namespace SuperShop.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+ 
         public async Task<IActionResult> Create(ProductViewModel model)
         {
             if (ModelState.IsValid)
@@ -83,8 +82,7 @@ namespace SuperShop.Web.Controllers
                 //var product = this.ToProduct(model, path);
                 var product = _converterHelper.ToProduct(model, imageId, true);
 
-                //TODO: Modificar para o User que tiver logado
-                product.User = await _userHelper.GetUserByEmailAsync("rafaasfs@gmail.com");
+                product.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 await _productRepository.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
@@ -135,7 +133,7 @@ namespace SuperShop.Web.Controllers
                     //var product = this.ToProduct(model, path);
                     var product = _converterHelper.ToProduct(model, imageId, false);
                     //TODO: Modificar para o User que tiver logado
-                    product.User = await _userHelper.GetUserByEmailAsync("rafaasfs@gmail.com");
+                    product.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                     await _productRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -155,6 +153,7 @@ namespace SuperShop.Web.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize]
         public  async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -171,10 +170,11 @@ namespace SuperShop.Web.Controllers
 
             return View(product);
         }
-
+      
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+ 
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
