@@ -166,5 +166,9 @@ namespace SuperShop.Web.Controllers
 
             return this.View(model);
         }
+        public IActionResult NotAuthorized()
+        {
+            return View();
+        }
     }
 }
