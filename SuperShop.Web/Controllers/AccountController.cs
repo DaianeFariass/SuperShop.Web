@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace SuperShop.Web.Controllers
 {

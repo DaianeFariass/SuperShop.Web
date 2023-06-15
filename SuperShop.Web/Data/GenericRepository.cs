@@ -28,7 +28,7 @@ namespace SuperShop.Web.Data
         }
         public async Task CreateAsync(T entity)
         {
-           _context.Set<T>().Update(entity);
+            _context.Set<T>().Update(entity);
             await SaveAllAsync();
         }
         public async Task UpdateAsync(T entity)
