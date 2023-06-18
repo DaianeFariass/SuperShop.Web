@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.Entities;
-using System.Collections.Generic;
+
 
 namespace SuperShop.Web.Data
 {
@@ -14,7 +15,7 @@ namespace SuperShop.Web.Data
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
-        public DbSet<OrderDetailTemp> orderDetailTemp { get; set; } 
+        public DbSet<OrderDetailTemp> OrderDetailTemp { get; set; } 
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) 
         { 
