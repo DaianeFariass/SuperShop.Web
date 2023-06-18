@@ -8,6 +8,8 @@ namespace SuperShop.Web.Data
     {
         Task<IQueryable<Order>> GetOrderAsync(string userName);
 
-        
+        Task<IQueryable<OrderDetailTemp>> GetDetailsTempsAsync(string userName);
+
+
     }
 }

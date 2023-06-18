@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Helpers;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace SuperShop.Web.Data
 {
@@ -15,6 +16,22 @@ namespace SuperShop.Web.Data
         {
             _context = context;
             _userHelper = userHelper;
+        }
+
+        public async Task<IQueryable<OrderDetailTemp>> GetDetailsTempsAsync(string userName)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(userName);
+            if (user == null)
+            {
+                return null;
+
+            }
+            return _context.orderDetailTemp
+                .Include(p => p.Product)
+                .Where(o => o.User == user)
+                .OrderByDescending(o => o.Product.Name);
+
+
         }
 
         public async Task<IQueryable<Order>> GetOrderAsync(string userName)
