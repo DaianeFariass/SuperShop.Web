@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.IO;
+﻿using System.IO;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+
 
 namespace SuperShop.Web.Helpers
 {

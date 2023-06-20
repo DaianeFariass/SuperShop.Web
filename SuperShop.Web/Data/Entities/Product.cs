@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SuperShop.Web.Data.Entities
 {
@@ -35,7 +34,7 @@ namespace SuperShop.Web.Data.Entities
         public string ImageFullPath => ImageId == Guid.Empty
             ? $" https://supershopwebcet76.azurewebsites.net/images//imagemindisponivel.png"
             : $" https://supershoptpsi.blob.core.windows.net/products/{ImageId}";
-                
+
     }
-   
+
 }

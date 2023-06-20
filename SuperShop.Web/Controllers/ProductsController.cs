@@ -1,34 +1,32 @@
-﻿
-using System;
-using System.IO;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data;
-using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Helpers;
 using SuperShop.Web.Models;
 
+
 namespace SuperShop.Web.Controllers
-{  
+{
     public class ProductsController : Controller
-    {       
+    {
         private readonly IProductRepository _productRepository;
         private readonly IUserHelper _userHelper;
         private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
 
         public ProductsController(
-            IProductRepository productRepository, 
-            IUserHelper userHelper, 
-            IBlobHelper blobHelper, 
+            IProductRepository productRepository,
+            IUserHelper userHelper,
+            IBlobHelper blobHelper,
             IConverterHelper converterHelper)
         {
-            _productRepository= productRepository;
+            _productRepository = productRepository;
             _userHelper = userHelper;
-            _blobHelper= blobHelper;
+            _blobHelper = blobHelper;
             _converterHelper = converterHelper;
         }
 
@@ -46,7 +44,7 @@ namespace SuperShop.Web.Controllers
                 return new NotFoundViewResult("ProductNotFound");
             }
 
-            var product = await  _productRepository.GetByIdAsync(id.Value);
+            var product = await _productRepository.GetByIdAsync(id.Value);
             if (product == null)
             {
                 return new NotFoundViewResult("ProductNotFound");
@@ -56,19 +54,19 @@ namespace SuperShop.Web.Controllers
         }
 
         // GET: Products/Create
-       
+
         public IActionResult Create()
         {
 
             return View();
         }
-     
+
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
- 
+
         public async Task<IActionResult> Create(ProductViewModel model)
         {
             if (ModelState.IsValid)
@@ -98,7 +96,7 @@ namespace SuperShop.Web.Controllers
                 return new NotFoundViewResult("ProductNotFound");
             }
 
-            var product = await  _productRepository.GetByIdAsync(id.Value);
+            var product = await _productRepository.GetByIdAsync(id.Value);
             if (product == null)
             {
                 return new NotFoundViewResult("ProductNotFound");
@@ -109,7 +107,7 @@ namespace SuperShop.Web.Controllers
             return View(model);
         }
 
- 
+
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -124,7 +122,7 @@ namespace SuperShop.Web.Controllers
                 {
                     Guid imageId = Guid.Empty;
 
-                    if (model.ImageFile!= null && model.ImageFile.Length > 0) 
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
 
                         imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");
@@ -138,7 +136,7 @@ namespace SuperShop.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _productRepository.ExistAsync(model.Id))
+                    if (!await _productRepository.ExistAsync(model.Id))
                     {
                         return new NotFoundViewResult("ProductNotFound");
                     }
@@ -154,7 +152,7 @@ namespace SuperShop.Web.Controllers
 
         // GET: Products/Delete/5
         [Authorize]
-        public  async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -162,7 +160,7 @@ namespace SuperShop.Web.Controllers
             }
 
             var product = await _productRepository.GetByIdAsync(id.Value);
-               
+
             if (product == null)
             {
                 return new NotFoundViewResult("ProductNotFound");
@@ -170,7 +168,7 @@ namespace SuperShop.Web.Controllers
 
             return View(product);
         }
-      
+
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -187,7 +185,7 @@ namespace SuperShop.Web.Controllers
             }
             catch (DbUpdateException ex)
             {
-                if(ex.InnerException!= null && ex.InnerException.Message.Contains("DELETE"))
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
                 {
                     ViewBag.ErrorTitle = $"{product.Name} probably in been used!!!";
                     ViewBag.ErrorMessage = $"{product.Name} can not be deleted because there are orders with this product!!!</br></br>" +
@@ -195,10 +193,10 @@ namespace SuperShop.Web.Controllers
                         $" And Please try again delete it";
 
                 }
-           
+
                 return View("Error");
             }
-                  
+
         }
         public IActionResult ProductNotFound()
         {

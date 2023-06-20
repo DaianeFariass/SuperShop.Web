@@ -1,7 +1,8 @@
-﻿using SuperShop.Web.Data.Entities;
-using SuperShop.Web.Models;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using SuperShop.Web.Data.Entities;
+using SuperShop.Web.Models;
+
 
 namespace SuperShop.Web.Data
 {
@@ -18,6 +19,10 @@ namespace SuperShop.Web.Data
         Task DeleteDetailTempAsync(int id);
 
         Task<bool> ConfirmOrderAsync(string userName);
+
+        Task DeliverOrder(DeliveryViewModel Model);
+
+        Task<Order>GetOrderAsync(int id);   
 
 
 

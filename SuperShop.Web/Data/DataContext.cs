@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Web.Data.Entities;
 
@@ -10,18 +7,22 @@ namespace SuperShop.Web.Data
 {
     public class DataContext : IdentityDbContext<User>
     {
-        public DbSet<Product> Products { get; set; }   
-        
+        public DbSet<Product> Products { get; set; }
+
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
-        public DbSet<OrderDetailTemp> OrderDetailTemp { get; set; } 
+        public DbSet<OrderDetailTemp> OrderDetailTemp { get; set; }
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options) 
-        { 
-        
-        
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+
+
         }
         //-------------Habilitar a regra de apagar em cascata (Cascade Delete Rule)-------------
 

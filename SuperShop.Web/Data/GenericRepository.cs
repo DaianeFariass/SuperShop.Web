@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SuperShop.Web.Data.Entities;
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SuperShop.Web.Data.Entities;
+
 
 namespace SuperShop.Web.Data
 {
@@ -50,6 +50,6 @@ namespace SuperShop.Web.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        
+
     }
 }

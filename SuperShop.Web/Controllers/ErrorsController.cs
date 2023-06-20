@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using SuperShop.Web.Models;
-using System.Diagnostics;
+
 
 namespace SuperShop.Web.Controllers
 {

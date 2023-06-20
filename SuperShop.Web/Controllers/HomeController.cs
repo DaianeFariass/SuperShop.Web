@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SuperShop.Web.Models;
-using System.Diagnostics;
 
 
 namespace SuperShop.Web.Controllers
@@ -25,6 +23,6 @@ namespace SuperShop.Web.Controllers
             return View();
         }
 
-       
+
     }
 }
