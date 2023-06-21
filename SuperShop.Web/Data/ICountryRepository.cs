@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Models;
 
@@ -20,7 +23,11 @@ namespace SuperShop.Web.Data
 
         Task<int> DeleteCityAsync(City city);
 
+        IEnumerable<SelectListItem> GetComboCountries();
 
+        IEnumerable<SelectListItem> GetComboCities(int countryId);
+
+        Task<Country> GetCountryAsync(City city);
 
     }
 }
