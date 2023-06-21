@@ -1,7 +1,13 @@
-﻿using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using SuperShop.Web.Data;
 using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Helpers;
@@ -14,12 +20,15 @@ namespace SuperShop.Web.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly ICountryRepository _countryRepository;
+        private readonly IConfiguration _configuration;
 
         public AccountController(IUserHelper userHelper,
-            ICountryRepository countryRepository)
+            ICountryRepository countryRepository,
+            IConfiguration configuration)
         {
             _userHelper = userHelper;
             _countryRepository = countryRepository;
+            _configuration = configuration;
         }
         public IActionResult Login()
         {
@@ -204,6 +213,49 @@ namespace SuperShop.Web.Controllers
 
             return this.View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                if (user != null)
+                {
+                    var result = await _userHelper.ValidatePasswordAsync(
+                        user,
+                        model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        var claims = new[]
+                        {
+                            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                        };
+
+                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+                        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                        var token = new JwtSecurityToken(
+                            _configuration["Tokens:Issuer"],
+                            _configuration["Tokens:Audience"],
+                            claims,
+                            expires: DateTime.UtcNow.AddDays(15),
+                            signingCredentials: credentials);
+                        var results = new
+                        {
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo
+                        };
+
+                        return this.Created(string.Empty, results);
+
+                    }
+                }
+            }
+
+            return BadRequest();
+        }
+
         public IActionResult NotAuthorized()
         {
             return View();
