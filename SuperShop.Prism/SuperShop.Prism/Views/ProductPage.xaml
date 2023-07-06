@@ -2,13 +2,22 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="SuperShop.Prism.Views.ProductPage"
              Title="{Binding Title}">
 
-    <StackLayout Padding="5">
-        <CollectionView ItemsSource="{Binding Products}">
+    <AbsoluteLayout>
+        <StackLayout 
+            Padding="5"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+            <SearchBar 
+                Placeholder="Search Products..."
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Search}"/>
+            <CollectionView ItemsSource="{Binding Products}">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" />
             </CollectionView.ItemsLayout>
@@ -49,7 +58,18 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </StackLayout>
-
-
+        </StackLayout>
+        <busyindicator:SfBusyIndicator
+            Title="Loading..."
+            AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+            AbsoluteLayout.LayoutFlags="All"
+            AnimationType="Gear"
+            BackgroundColor="Silver"
+            HorizontalOptions="Center"
+            IsBusy="{Binding IsRunning}"
+            TextColor="White"
+            VerticalOptions="Center"
+            ViewBoxHeight="80"
+            ViewBoxWidth="80" />
+    </AbsoluteLayout>
 </ContentPage>

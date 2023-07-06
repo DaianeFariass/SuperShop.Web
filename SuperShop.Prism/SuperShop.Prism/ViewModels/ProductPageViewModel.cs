@@ -1,44 +1,101 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using SuperShop.Prism.Models;
 using SuperShop.Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace SuperShop.Prism.ViewModels
 {
     public class ProductPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navegationService;
         private readonly IApiService _apiService;
-        private List<ProductResponse> _products;
+        private ObservableCollection<ProductResponse> _products;
+        private bool _isRunnig;
+        private string _search;
+        private List<ProductResponse> _myProducts;
+        private DelegateCommand _searchCommand;
         public ProductPageViewModel(INavigationService navegationService,
-            IApiService apiService) : base(navegationService) 
+            IApiService apiService) : base(navegationService)
         {
-            _apiService= apiService;
+            _navegationService = navegationService;
+            _apiService = apiService;
             Title = "Products Page";
             LoadingProductsAsync();
         }
-        public List<ProductResponse>Products
+        public DelegateCommand SearchCommand => _searchCommand ?? (_searchCommand = new DelegateCommand(ShowProducts));
+
+        public string Search
+        {
+            get => _search;
+            set
+            {
+                SetProperty(ref _search, value);
+                ShowProducts();
+            }
+        }
+        public bool IsRunning
+        {
+            get => _isRunnig;
+            set => SetProperty(ref _isRunnig, value);
+        }
+        public ObservableCollection<ProductResponse> Products
         {
             get => _products;
             set => SetProperty(ref _products, value);
         }
 
+
         private async void LoadingProductsAsync()
         {
+            
+
+            if(Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await App.Current.MainPage.DisplayAlert(
+                        "Error", 
+                        "Check internet connection", "Accept");
+
+                });
+                return;
+           
+            }
+            IsRunning= true;
+
             string url = App.Current.Resources["UrlAPI"].ToString();
 
             Response response = await _apiService.GetListAsync<ProductResponse>(url, "/api", "/Products");
 
+            IsRunning = false;
+            
             if (!response.IsSuccess)
             {
                 await App.Current.MainPage.DisplayAlert("Error", response.Message, "Accept");
                 return;
             }
 
-            Products = (List<ProductResponse>)response.Result;
+            _myProducts = (List<ProductResponse>)response.Result;
+            ShowProducts();
         }
+        private void ShowProducts()
+        {
+            if(string.IsNullOrEmpty(Search))
+            {
+                Products = new ObservableCollection<ProductResponse>(_myProducts);
+            }
+            else
+            {
+                Products = new ObservableCollection<ProductResponse>(
+                    _myProducts.Where(p => p.Name.ToLower().Contains(Search.ToLower()))); 
+            }
+        }
+
     }
 }
