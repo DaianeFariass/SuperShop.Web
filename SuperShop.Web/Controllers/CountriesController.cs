@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SuperShop.Web.Data;
 using SuperShop.Web.Data.Entities;
 using SuperShop.Web.Models;
-
+using Vereyon.Web;
 
 namespace SuperShop.Web.Controllers
 {
@@ -12,10 +13,13 @@ namespace SuperShop.Web.Controllers
     public class CountriesController : Controller
     {
         private readonly ICountryRepository _countryRepository;
+        private readonly IFlashMessage _flashMessage;
 
-        public CountriesController(ICountryRepository countryRepository)
+        public CountriesController(ICountryRepository countryRepository,
+            IFlashMessage flashMessage)
         {
             _countryRepository = countryRepository;
+            _flashMessage = flashMessage;
         }
         public IActionResult Index()
         {
@@ -126,8 +130,17 @@ namespace SuperShop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _countryRepository.CreateAsync(country);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _countryRepository.CreateAsync(country);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+                    _flashMessage.Danger("This country already exist!");
+                }
+   
+                return View(country);
             }
 
             return View(country);

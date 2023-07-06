@@ -4,7 +4,10 @@
     ViewData["Title"] = "Create new product";
 }
 
-<h1>New Product</h1>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+
+
+<br />
 
 
 <hr />
@@ -26,5 +29,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-  
+
+    
 }
