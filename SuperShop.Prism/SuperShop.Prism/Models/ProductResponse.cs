@@ -10,20 +10,17 @@ namespace SuperShop.Prism.Models
 
         public string Name { get; set; }
 
-        public decimal Price { get; set; }
+        public float Price { get; set; }
 
-        public Guid ImageId { get; set; }
+        public string ImageUrl { get; set; }
 
-        public DateTime? LastPurchase { get; set; }
+        public object LastPurchase { get; set; }
 
-
-        public DateTime? LastSale { get; set; }
-
+        public object LastSale { get; set; }
 
         public bool IsAvailable { get; set; }
 
-        
-        public double Stock { get; set; }
+        public float Stock { get; set; }
 
         public UserResponse User { get; set; }
 

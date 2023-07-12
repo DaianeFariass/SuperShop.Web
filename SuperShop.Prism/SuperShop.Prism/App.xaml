@@ -8,7 +8,7 @@
     <!-- Application resource dictionary -->
         <ResourceDictionary>
             <!-- Parameters -->
-            <x:String x:Key="UrlAPI">https://supershoptpsi.azurewebsites.net/</x:String>
+            <x:String x:Key="UrlAPI">https://supershopwebtpsicet76.azurewebsites.net/</x:String>
             
         </ResourceDictionary>
 

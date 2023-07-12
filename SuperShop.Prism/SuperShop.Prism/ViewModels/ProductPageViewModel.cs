@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Navigation;
+using SuperShop.Prism.ItemViewModels;
 using SuperShop.Prism.Models;
 using SuperShop.Prism.Services;
 using System;
@@ -15,7 +16,7 @@ namespace SuperShop.Prism.ViewModels
     {
         private readonly INavigationService _navegationService;
         private readonly IApiService _apiService;
-        private ObservableCollection<ProductResponse> _products;
+        private ObservableCollection<ProductItemViewModel> _products;
         private bool _isRunnig;
         private string _search;
         private List<ProductResponse> _myProducts;
@@ -44,7 +45,7 @@ namespace SuperShop.Prism.ViewModels
             get => _isRunnig;
             set => SetProperty(ref _isRunnig, value);
         }
-        public ObservableCollection<ProductResponse> Products
+        public ObservableCollection<ProductItemViewModel> Products
         {
             get => _products;
             set => SetProperty(ref _products, value);
@@ -88,12 +89,41 @@ namespace SuperShop.Prism.ViewModels
         {
             if(string.IsNullOrEmpty(Search))
             {
-                Products = new ObservableCollection<ProductResponse>(_myProducts);
+                Products = new ObservableCollection<ProductItemViewModel> (_myProducts.Select(p =>
+                new ProductItemViewModel(_navegationService)
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    ImageUrl = p.ImageUrl,
+                    LastPurchase = p.LastPurchase,
+                    LastSale = p.LastSale,
+                    IsAvailable = p.IsAvailable,
+                    Stock = p.Stock,
+                    User = p.User,
+                    ImageFullPath = p.ImageFullPath
+
+                }).ToList());
             }
             else
             {
-                Products = new ObservableCollection<ProductResponse>(
-                    _myProducts.Where(p => p.Name.ToLower().Contains(Search.ToLower()))); 
+                Products = new ObservableCollection<ProductItemViewModel>(
+                    _myProducts.Select(p =>
+                    new ProductItemViewModel(_navegationService)
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Price = p.Price,
+                        ImageUrl = p.ImageUrl,
+                        LastPurchase = p.LastPurchase,
+                        LastSale = p.LastSale,
+                        IsAvailable = p.IsAvailable,
+                        Stock = p.Stock,
+                        User = p.User,
+                        ImageFullPath = p.ImageFullPath
+
+                    }).Where(p => p.Name.ToLower().Contains(Search.ToLower()))
+                    .ToList()); 
             }
         }
 
