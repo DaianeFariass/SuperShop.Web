@@ -23,7 +23,8 @@ namespace SuperShop.Prism
 
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/ProductPage");
+            await NavigationService.NavigateAsync
+                ($"/{nameof(SuperShopMasterDetailPage)}/NavigationPage/{nameof(ProductPage)}");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -34,6 +35,10 @@ namespace SuperShop.Prism
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<ProductPage, ProductPageViewModel>();
             containerRegistry.RegisterForNavigation<ProductDetailPage, ProductDetailPageViewModel>();
+            containerRegistry.RegisterForNavigation<SuperShopMasterDetailPage, SuperShopMasterDetailPageViewModel>();
+            containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
+            containerRegistry.RegisterForNavigation<ShowHistoryPage, ShowHistoryPageViewModel>();
+            containerRegistry.RegisterForNavigation<ShowCarPage, ShowCarPageViewModel>();
         }
     }
 }
