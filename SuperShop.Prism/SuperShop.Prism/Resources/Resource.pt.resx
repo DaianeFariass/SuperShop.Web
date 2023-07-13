@@ -116,7 +116,7 @@
     <value>Nome</value>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>Preço!</value>
+    <value>Preço</value>
   </data>
   <data name="AddToCart" xml:space="preserve">
     <value>Adicionar ao carrinho</value>
@@ -125,6 +125,18 @@
     <value>Produtos</value>
   </data>
   <data name="Product" xml:space="preserve">
-    <value>Produto!</value>
+    <value>Produto</value>
+  </data>
+  <data name="IsAvailable" xml:space="preserve">
+    <value>Está disponível</value>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>Stock</value>
+  </data>
+  <data name="LastSale" xml:space="preserve">
+    <value>Última venda</value>
+  </data>
+  <data name="LastPurchase" xml:space="preserve">
+    <value>Última Compra</value>
   </data>
 </root>

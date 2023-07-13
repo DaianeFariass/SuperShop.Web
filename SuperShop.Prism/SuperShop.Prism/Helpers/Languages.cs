@@ -17,7 +17,6 @@ namespace SuperShop.Prism.Helpers
             Culture = ci.Name;
             DependencyService.Get<ILocalize>().SetLocale(ci);
         }
-
         public static string Culture { get; set; }
 
         public static string Accept => Resource.Accept;
@@ -39,6 +38,14 @@ namespace SuperShop.Prism.Helpers
         public static string Loading => Resource.Loading;
 
         public static string SearchProduct => Resource.SearchProduct;
+
+        public static string Stock => Resource.Stock;
+
+        public static string IsAvailable => Resource.IsAvailable;
+
+        public static string LastPurchase => Resource.LastPurchase;
+
+        public static string LastSale => Resource.LastSale;
 
     }
 }

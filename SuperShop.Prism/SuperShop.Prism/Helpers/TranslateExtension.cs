@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 
 namespace SuperShop.Prism.Helpers
 {
+    [ContentProperty("Text")]
     public class TranslateExtension : IMarkupExtension
     {
         private readonly CultureInfo ci;

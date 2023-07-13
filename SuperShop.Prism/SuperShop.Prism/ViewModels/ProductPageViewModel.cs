@@ -62,8 +62,8 @@ namespace SuperShop.Prism.ViewModels
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await App.Current.MainPage.DisplayAlert(
-                        Languages.Error, 
-                        Languages.ConnectionError, Languages.Accept);
+                       Languages.Error,
+                       Languages.ConnectionError, Languages.Accept);
 
                 });
                 return;
@@ -80,8 +80,8 @@ namespace SuperShop.Prism.ViewModels
             if (!response.IsSuccess)
             {
                 await App.Current.MainPage.DisplayAlert(
-                    Languages.Error, 
-                    response.Message, 
+                    Languages.Error,
+                    response.Message,
                     Languages.Accept);
                 return;
             }
